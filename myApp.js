@@ -8,7 +8,7 @@ const personSchema = new mongoose.Schema({
   favoriteFoods: [String]
 });
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let Person = mongoose.model('Person', personSchema);
 
@@ -62,6 +62,14 @@ const findPersonById = (personId, done) => {
 
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
+  Person.findById(personId, (err, person) => {
+    if (err) return console.error(err);
+    person.favoriteFoods.push(foodToAdd);
+    person.save((err, data) => {
+      if (err) return console.error(err);
+      done(null, data)
+    });
+  });
 
   done(null /*, data*/);
 };
