@@ -13,7 +13,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 let Person = mongoose.model('Person', personSchema);
 
 //--- Creates and Saves a person in database ---
-const createAndSavePerson = function(done) {
+const createAndSavePerson = function (done) {
   var somebody = new Person({
     name: "Ellyan Fernandes",
     age: 21,
@@ -26,35 +26,38 @@ const createAndSavePerson = function(done) {
 };
 
 var manyPersons = [
-  {name: "Frankie", age: 74, favoriteFoods: ["Del Taco"]},
-  {name: "Sol", age: 76, favoriteFoods: ["roast chicken"]},
-  {name: "Robert", age: 78, favoriteFoods: ["wine"]}
+  { name: "Frankie", age: 74, favoriteFoods: ["Del Taco"] },
+  { name: "Sol", age: 76, favoriteFoods: ["roast chicken"] },
+  { name: "Robert", age: 78, favoriteFoods: ["wine"] }
 ];
 
 //--- Creates many rows simultaneously ---
-const createManyPeople = function(arrayOfPeople = manyPersons, done) {
+const createManyPeople = function (arrayOfPeople = manyPersons, done) {
   Person.create(arrayOfPeople, function (err, people) {
     if (err) return console.error(err);
     done(null, people);
   });
 };
 
-const findPeopleByName = function(personName, done) {
-  Person.find({name: personName}, function (err, personFound) {
+const findPeopleByName = function (personName, done) {
+  Person.find({ name: personName }, function (err, personFound) {
     if (err) return console.error(err)
     done(null, personFound);
   });
 };
 
 const findOneByFood = (food, done) => {
-  Person.findOne({favoriteFoods: food}, function(err, personFound) {
+  Person.findOne({ favoriteFoods: food }, function (err, personFound) {
     if (err) return console.error(err);
     done(null, personFound);
   });
 };
 
 const findPersonById = (personId, done) => {
-  done(null /*, data*/);
+  Person.findById(personId, (err, personFound) => {
+    if (err) return console.error(err);
+    done(null, personFound);
+  });
 };
 
 const findEditThenSave = (personId, done) => {
