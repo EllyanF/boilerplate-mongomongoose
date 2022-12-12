@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-const { query } = require('express');
 let mongoose = require('mongoose');
 
 const personSchema = new mongoose.Schema({
@@ -34,25 +33,25 @@ var manyPersons = [
 //--- Creates many rows simultaneously ---
 const createManyPeople = function (arrayOfPeople = manyPersons, done) {
   Person.create(arrayOfPeople, function (err, people) {
-    err ? console.error(err) : done(null, data);
+    err ? console.error(err) : done(null, people);
   });
 };
 
 const findPeopleByName = function (personName, done) {
   Person.find({ name: personName }, function (err, personFound) {
-    err ? console.error(err) : done(null, data);
+    err ? console.error(err) : done(null, personFound);
   });
 };
 
 const findOneByFood = (food, done) => {
   Person.findOne({ favoriteFoods: food }, function (err, personFound) {
-    err ? console.error(err) : done(null, data);
+    err ? console.error(err) : done(null, personFound);
   });
 };
 
 const findPersonById = (personId, done) => {
   Person.findById(personId, (err, personFound) => {
-    err ? console.error(err) : done(null, data);
+    err ? console.error(err) : done(null, personFound);
   });
 };
 
@@ -70,7 +69,7 @@ const findEditThenSave = (personId, done) => {
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
   Person.findOneAndUpdate({ name: personName }, { age: ageToSet }, { new: true }, (err, updatedPerson) => {
-    err ? console.error(err) : done(null, data);
+    err ? console.error(err) : done(null, updatedPerson);
   });
 };
 
