@@ -70,14 +70,14 @@ const findEditThenSave = (personId, done) => {
       done(null, data)
     });
   });
-
-  done(null /*, data*/);
 };
 
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
-
-  done(null /*, data*/);
+  Person.findOne(personName, ageToSet, { update: true }, (err, data) => {
+    if (err) return console.error(err);
+    done(null, data);
+  });
 };
 
 const removeById = (personId, done) => {
