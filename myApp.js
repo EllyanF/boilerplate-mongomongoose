@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const { query } = require('express');
 let mongoose = require('mongoose');
 
 const personSchema = new mongoose.Schema({
@@ -97,8 +98,14 @@ const removeManyPeople = (done) => {
 
 const queryChain = (done) => {
   const foodToSearch = "burrito";
-
-  done(null /*, data*/);
+  query = Person.find({ favoriteFoods: foodToSearch });
+  query.sort({ name: 1 }).
+    query.limit(2).
+    query.select({ name: 1, age: 0 }).
+    query.exec((err, data) => {
+      if (err) return console.error(err);
+      done(null /*, data*/);
+    });
 };
 
 /** **Well Done !!**
