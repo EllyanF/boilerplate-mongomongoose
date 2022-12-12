@@ -104,7 +104,7 @@ const queryChain = (done) => {
     query.select({ name: 1, age: 0 }).
     query.exec((err, data) => {
       if (err) return console.error(err);
-      done(null /*, data*/);
+      done(null, data);
     });
 };
 
